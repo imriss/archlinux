@@ -1,5 +1,5 @@
-# archlinux
-Archlinux image with official repositories snapshots
+# Rarchlinux
+Archlinux Docker Image built from official repositories snapshots with working R language
 
 # Overview
 Archlinux installation built with mkimage-arch.sh.
