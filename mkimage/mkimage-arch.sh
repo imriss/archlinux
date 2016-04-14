@@ -62,7 +62,7 @@ case "$(uname -m)" in
 		PACMAN_EXTRA_PKGS='archlinuxarm-keyring'
 		EXPECT_TIMEOUT=120
 		ARCH_KEYRING=archlinuxarm
-		DOCKER_IMAGE_NAME=archlinuxarm
+		DOCKER_IMAGE_NAME=rarchlinuxarm
 		;;
 	*)
 		PACMAN_CONF='./mkimage-arch-pacman.conf'
@@ -70,7 +70,7 @@ case "$(uname -m)" in
 		PACMAN_EXTRA_PKGS=''
 		EXPECT_TIMEOUT=60
 		ARCH_KEYRING=archlinux
-		DOCKER_IMAGE_NAME=archlinux
+		DOCKER_IMAGE_NAME=rarchlinux
 		;;
 esac
 
@@ -84,7 +84,7 @@ expect <<EOF
 	}
 	set timeout $EXPECT_TIMEOUT
 
-	spawn pacstrap -C $PACMAN_CONF -c -d -G -i $ROOTFS base haveged $PACMAN_EXTRA_PKGS --ignore $PKGIGNORE
+	spawn pacstrap -C $PACMAN_CONF -c -d -G -i $ROOTFS base mesa-libgl r haveged $PACMAN_EXTRA_PKGS --ignore $PKGIGNORE
 	expect {
 		-exact "anyway? \[Y/n\] " { send -- "n\r"; exp_continue }
 		-exact "(default=all): " { send -- "\r"; exp_continue }
