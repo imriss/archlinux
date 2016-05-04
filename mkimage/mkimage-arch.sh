@@ -42,7 +42,6 @@ PKGIGNORE=(
     systemd-sysvcompat
     usbutils
     vi
-    xfsprogs
 )
 IFS=','
 PKGIGNORE="${PKGIGNORE[*]}"
