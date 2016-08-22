@@ -61,7 +61,7 @@ case "$(uname -m)" in
 		PACMAN_EXTRA_PKGS='archlinuxarm-keyring'
 		EXPECT_TIMEOUT=12000
 		ARCH_KEYRING=archlinuxarm
-		DOCKER_IMAGE_NAME=imriss/rarchlinuxarm
+		DOCKER_IMAGE_NAME=rarchlinuxarm
 		;;
 	*)
 		PACMAN_CONF='./mkimage-arch-pacman.conf'
@@ -69,7 +69,7 @@ case "$(uname -m)" in
 		PACMAN_EXTRA_PKGS=''
 		EXPECT_TIMEOUT=6000
 		ARCH_KEYRING=archlinux
-		DOCKER_IMAGE_NAME=imriss/rarchlinux
+		DOCKER_IMAGE_NAME=rarchlinux
 		;;
 esac
 
