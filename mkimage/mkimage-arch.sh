@@ -59,7 +59,7 @@ case "$(uname -m)" in
 		PACMAN_CONF='./mkimage-archarm-pacman.conf'
 		PACMAN_MIRRORLIST='Server = https://archive.archlinux.org/repos/'$REPO_DATE'/$repo/os/$arch'
 		PACMAN_EXTRA_PKGS='archlinuxarm-keyring'
-		EXPECT_TIMEOUT=120
+		EXPECT_TIMEOUT=12000
 		ARCH_KEYRING=archlinuxarm
 		DOCKER_IMAGE_NAME=rarchlinuxarm
 		;;
@@ -67,7 +67,7 @@ case "$(uname -m)" in
 		PACMAN_CONF='./mkimage-arch-pacman.conf'
 		PACMAN_MIRRORLIST='Server = https://archive.archlinux.org/repos/'$REPO_DATE'/$repo/os/$arch'
 		PACMAN_EXTRA_PKGS=''
-		EXPECT_TIMEOUT=60
+		EXPECT_TIMEOUT=6000
 		ARCH_KEYRING=archlinux
 		DOCKER_IMAGE_NAME=rarchlinux
 		;;
@@ -83,13 +83,29 @@ expect <<EOF
 	}
 	set timeout $EXPECT_TIMEOUT
 
-	spawn pacstrap -C $PACMAN_CONF -c -d -G -i $ROOTFS base mesa-libgl r haveged $PACMAN_EXTRA_PKGS --ignore $PKGIGNORE
+	spawn pacstrap -C $PACMAN_CONF -c -d -G -i $ROOTFS base base-devel mesa-libgl r haveged $PACMAN_EXTRA_PKGS --ignore $PKGIGNORE
 	expect {
 		-exact "anyway? \[Y/n\] " { send -- "n\r"; exp_continue }
 		-exact "(default=all): " { send -- "\r"; exp_continue }
 		-exact "installation? \[Y/n\]" { send -- "y\r"; exp_continue }
 	}
 EOF
+
+arch-chroot $ROOTFS /bin/sh -c 'ls /home'
+arch-chroot $ROOTFS /bin/sh -c 'R --no-save <<EOF
+install.package("devtools", repos="http://cran.us.r-project.org")
+require(devtools)
+install.package("nleqslv", repos="http://cran.us.r-project.org")
+install.package("RJSONIO", repos="http://cran.us.r-project.org")
+install.package("weathermetrics", repos="http://cran.us.r-project.org")
+install.package("gdata", repos="http://cran.us.r-project.org")
+install.package("rnoaa", repos="http://cran.us.r-project.org")
+sessionInfo()
+# install.package("RFMCoolingSystemModel", repos="http://cran.us.r-project.org")
+install.package("opencpu", repos="http://cran.us.r-project.org")
+q()
+EOF'
+arch-chroot $ROOTFS /bin/sh -c 'ls /home'
 
 arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/man/*'
 arch-chroot $ROOTFS /bin/sh -c "haveged -w 1024; pacman-key --init; pkill haveged; pacman -Rs --noconfirm haveged; pacman-key --populate $ARCH_KEYRING; pkill gpg-agent"
