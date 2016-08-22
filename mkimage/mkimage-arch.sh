@@ -93,16 +93,16 @@ EOF
 
 arch-chroot $ROOTFS /bin/sh -c 'ls /home'
 arch-chroot $ROOTFS /bin/sh -c 'R --no-save <<EOF
-install.package("devtools", repos="http://cran.us.r-project.org")
+install.packages("devtools", repos="http://cran.us.r-project.org")
 require(devtools)
-install.package("nleqslv", repos="http://cran.us.r-project.org")
-install.package("RJSONIO", repos="http://cran.us.r-project.org")
-install.package("weathermetrics", repos="http://cran.us.r-project.org")
-install.package("gdata", repos="http://cran.us.r-project.org")
-install.package("rnoaa", repos="http://cran.us.r-project.org")
+install.packages("nleqslv", repos="http://cran.us.r-project.org")
+install.packages("RJSONIO", repos="http://cran.us.r-project.org")
+install.packages("weathermetrics", repos="http://cran.us.r-project.org")
+install.packages("gdata", repos="http://cran.us.r-project.org")
+install.packages("rnoaa", repos="http://cran.us.r-project.org")
 sessionInfo()
-# install.package("RFMCoolingSystemModel", repos="http://cran.us.r-project.org")
-install.package("opencpu", repos="http://cran.us.r-project.org")
+# install.packages("RFMCoolingSystemModel", repos="http://cran.us.r-project.org")
+install.packages("opencpu", repos="http://cran.us.r-project.org")
 q()
 EOF'
 arch-chroot $ROOTFS /bin/sh -c 'ls /home'
